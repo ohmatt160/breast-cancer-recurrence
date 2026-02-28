@@ -1,0 +1,2 @@
+timestamp,age,menopause,tumor_size,inv_nodes,node_caps,deg_malig,breast,breast_quad,irradiat,recurrence
+2026-01-02T00:22:46.646529,50-59,ge40,30-34,3-5,yes,1,left,left_up,yes,Yes
