@@ -2,6 +2,9 @@ import csv
 import os
 from datetime import datetime
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from .schemas import PatientData, PredictionResponse
 from .model import predict_recurrence
 
@@ -21,6 +24,14 @@ if not os.path.exists(LOG_FILE):
         ])
 
 app = FastAPI(title="Breast Cancer Recurrence Predictor")
+
+# Serve static files from the built frontend
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.get("/")
+async def serve_frontend():
+    return FileResponse("app/static/index.html")
+
 
 def map_patient_to_model_input(patient: PatientData):
     return {
@@ -56,4 +67,4 @@ def predict(patient: PatientData):
             patient.irradiat,
             result
         ])
-    return {"recurrence": result}
+    return {"prediction": result}
