@@ -129,8 +129,9 @@ The final trained model achieves the following performance metrics on the held-o
 | Metric | Value | Interpretation |
 |--------|-------|----------------|
 | **Accuracy** | 81.42% | Proportion of correct predictions (both recurrence and non-recurrence) |
-| **Sensitivity** | 85.71% | Proportion of actual recurrence cases correctly identified |
-| **Specificity** | 79.49% | Proportion of non-recurrence cases correctly identified |
+| **Sensitivity** | 84.85% | Proportion of actual recurrence cases correctly identified |
+| **Specificity** | 80.00% | Proportion of non-recurrence cases correctly identified |
+| **F1 Score** | 72.73% | Harmonic mean of precision and recall |
 
 ### 4.5.4 Confusion Matrix
 
@@ -141,7 +142,7 @@ The confusion matrix on the test set reveals:
 | **Actual: No Recurrence** | 62 (True Negative) | 16 (False Positive) |
 | **Actual: Recurrence** | 4 (False Negative) | 24 (True Positive) |
 
-This matrix indicates that the model correctly identifies 24 out of 28 recurrence cases (85.71% sensitivity) while correctly ruling out 62 out of 78 non-recurrence cases (79.49% specificity).
+This matrix indicates that the model correctly identifies 24 out of 28 recurrence cases (84.85% sensitivity) while correctly ruling out 62 out of 78 non-recurrence cases (80.00% specificity).
 
 ### 4.5.5 Performance Comparison
 
@@ -150,10 +151,11 @@ The implemented model demonstrates significant improvement over baseline perform
 | Metric | Original Baseline | Improved Model | Improvement |
 |--------|------------------|----------------|-------------|
 | Accuracy | 65.49% | 81.42% | +15.93% |
-| Sensitivity | 51.52% | 85.71% | +34.19% |
-| Specificity | 71.25% | 79.49% | +8.24% |
+| Sensitivity | 51.52% | 84.85% | +33.33% |
+| Specificity | 71.25% | 80.00% | +8.75% |
+| F1 Score | N/A | 72.73% | - |
 
-The most notable improvement is in sensitivity, which increased by over 34 percentage points. This improvement is clinically significant as it means the model now correctly identifies a much higher proportion of patients who will experience recurrence, enabling earlier intervention and better patient outcomes.
+The most notable improvement is in sensitivity, which increased by over 33 percentage points. This improvement is clinically significant as it means the model now correctly identifies a much higher proportion of patients who will experience recurrence, enabling earlier intervention and better patient outcomes. The F1 Score of 72.73% provides a balanced measure of the model's performance considering both precision and recall.
 
 ## 4.6 Web Application Implementation
 
@@ -222,7 +224,7 @@ This chapter has presented the complete implementation of the Breast Cancer Recu
 
 2. **Model Training**: Six different classification models were trained and evaluated, with threshold optimization to achieve balanced performance across accuracy, sensitivity, and specificity.
 
-3. **Performance Results**: The final model achieves 81.42% accuracy, 85.71% sensitivity, and 79.49% specificity, representing significant improvement over baseline performance—particularly in sensitivity (+34.19%).
+3. **Performance Results**: The final model achieves 81.42% accuracy, 84.85% sensitivity, 80.00% specificity, and 72.73% F1 score, representing significant improvement over baseline performance—particularly in sensitivity (+33.33%).
 
 4. **System Deployment**: The complete web application integrates the trained model with a FastAPI backend and React frontend, providing healthcare providers with an accessible tool for recurrence prediction.
 

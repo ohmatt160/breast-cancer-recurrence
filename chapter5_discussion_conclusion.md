@@ -8,7 +8,7 @@ This chapter provides a comprehensive discussion of the research findings presen
 
 ### 5.2.1 Model Performance Analysis
 
-The Breast Cancer Recurrence Prediction system achieves a balanced performance profile with 81.42% accuracy, 85.71% sensitivity, and 79.49% specificity. These results warrant careful interpretation in the context of medical diagnostics:
+The Breast Cancer Recurrence Prediction system achieves a balanced performance profile with 81.42% accuracy, 84.85% sensitivity, 80.00% specificity, and 72.73% F1 score. These results warrant careful interpretation in the context of medical diagnostics:
 
 **Sensitivity (85.71%)**: The model's ability to correctly identify patients who will experience recurrence is clinically significant. In medical screening applications, high sensitivity is paramount because missing a true positive case (a patient who will have recurrence) can lead to delayed treatment and potentially worse outcomes. The achieved sensitivity of 85.71% means that approximately 6 out of every 7 patients who will experience recurrence are correctly identified by the model.
 
@@ -16,9 +16,11 @@ The Breast Cancer Recurrence Prediction system achieves a balanced performance p
 
 **Accuracy (81.42%)**: Overall accuracy provides a general measure of model performance, though it must be interpreted cautiously given the class imbalance in the dataset. The accuracy metric alone can be misleading in imbalanced datasets, which is why sensitivity and specificity provide more meaningful insights.
 
+**F1 Score (72.73%)**: The F1 score represents the harmonic mean of precision and recall, providing a balanced measure of model performance that accounts for both false positives and false negatives. An F1 score of 72.73% indicates good balance between precision and recall, which is particularly important in medical diagnostics where both missing true positive cases (false negatives) and unnecessary alarms (false positives) have significant consequences.
+
 ### 5.2.2 Comparison with Baseline
 
-The significant improvement from the original baseline (Accuracy: 65.49%, Sensitivity: 51.52%, Specificity: 71.25%) to the final model demonstrates the effectiveness of the implemented strategies:
+The significant improvement from the original baseline (Accuracy: 65.49%, Sensitivity: 51.52%, Specificity: 71.25%, F1 Score: N/A) to the final model (Accuracy: 81.42%, Sensitivity: 84.85%, Specificity: 80.00%, F1 Score: 72.73%) demonstrates the effectiveness of the implemented strategies:
 
 1. **Threshold Optimization**: By systematically testing thresholds from 0.05 to 0.35, the model achieves a much better balance between sensitivity and specificity. The default 0.5 threshold was clearly suboptimal for this imbalanced classification task.
 
@@ -156,7 +158,7 @@ Machine learning models in healthcare must be carefully evaluated for bias:
 
 ## 5.8 Conclusion
 
-This research has successfully developed a Breast Cancer Recurrence Prediction system that achieves clinically meaningful performance with 85.71% sensitivity and 81.42% accuracy. The implementation demonstrates the potential of machine learning to assist in cancer prognosis and personalized treatment planning.
+This research has successfully developed a Breast Cancer Recurrence Prediction system that achieves clinically meaningful performance with 84.85% sensitivity, 81.42% accuracy, and 72.73% F1 score. The implementation demonstrates the potential of machine learning to assist in cancer prognosis and personalized treatment planning.
 
 Key contributions of this work include:
 

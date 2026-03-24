@@ -6,7 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from imblearn.over_sampling import SMOTE
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
@@ -115,6 +115,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': rf,
@@ -122,6 +123,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'RF_balanced_thresh{thresh:.2f}'
     })
 
@@ -143,6 +145,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': rf_smote,
@@ -150,6 +153,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'SMOTE_RF_thresh{thresh:.2f}'
     })
 
@@ -168,6 +172,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': gb,
@@ -175,6 +180,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'GB_thresh{thresh:.2f}'
     })
 
@@ -193,6 +199,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': gb_smote,
@@ -200,6 +207,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'SMOTE_GB_thresh{thresh:.2f}'
     })
 
@@ -222,6 +230,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': ensemble,
@@ -229,6 +238,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'Ensemble_thresh{thresh:.2f}'
     })
 
@@ -251,6 +261,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
     acc = accuracy_score(y_test, y_pred)
     sens = tp / (tp + fn) if (tp + fn) > 0 else 0
     spec = tn / (tn + fp) if (tn + fp) > 0 else 0
+    f1 = f1_score(y_test, y_pred)
     
     results.append({
         'model': ensemble_smote,
@@ -258,6 +269,7 @@ for thresh in np.arange(0.05, 0.35, 0.01):
         'accuracy': acc,
         'sensitivity': sens,
         'specificity': spec,
+        'f1_score': f1,
         'config': f'SMOTE_Ensemble_thresh{thresh:.2f}'
     })
 
@@ -279,11 +291,12 @@ else:
 print("\n=== Configs with Sensitivity >= 85% ===")
 high_sens = [r for r in results if r['sensitivity'] >= 0.85]
 for r in sorted(high_sens, key=lambda x: -x['sensitivity'])[:5]:
-    print(f"  {r['config']}: Acc={r['accuracy']*100:.2f}%, Sens={r['sensitivity']*100:.2f}%, Spec={r['specificity']*100:.2f}%")
+    print(f"  {r['config']}: Acc={r['accuracy']*100:.2f}%, Sens={r['sensitivity']*100:.2f}%, Spec={r['specificity']*100:.2f}%, F1={r['f1_score']*100:.2f}%")
     print(f"  Config: {best_balanced['config']}")
     print(f"  Accuracy: {best_balanced['accuracy']*100:.2f}%")
     print(f"  Sensitivity: {best_balanced['sensitivity']*100:.2f}%")
     print(f"  Specificity: {best_balanced['specificity']*100:.2f}%")
+    print(f"  F1 Score: {best_balanced['f1_score']*100:.2f}%")
 
 # Option 2: Highest sensitivity
 best_sens = max(results, key=lambda x: x['sensitivity'])
@@ -292,6 +305,7 @@ print(f"  Config: {best_sens['config']}")
 print(f"  Accuracy: {best_sens['accuracy']*100:.2f}%")
 print(f"  Sensitivity: {best_sens['sensitivity']*100:.2f}%")
 print(f"  Specificity: {best_sens['specificity']*100:.2f}%")
+print(f"  F1 Score: {best_sens['f1_score']*100:.2f}%")
 
 # Option 3: Best accuracy
 best_acc = max(results, key=lambda x: x['accuracy'])
@@ -300,6 +314,7 @@ print(f"  Config: {best_acc['config']}")
 print(f"  Accuracy: {best_acc['accuracy']*100:.2f}%")
 print(f"  Sensitivity: {best_acc['sensitivity']*100:.2f}%")
 print(f"  Specificity: {best_acc['specificity']*100:.2f}%")
+print(f"  F1 Score: {best_acc['f1_score']*100:.2f}%")
 
 # Use the best balanced model (all metrics >= 80%) if available, otherwise use highest accuracy
 if best_balanced:
@@ -308,6 +323,7 @@ if best_balanced:
     accuracy = best_balanced['accuracy']
     sensitivity = best_balanced['sensitivity']
     specificity = best_balanced['specificity']
+    f1 = best_balanced['f1_score']
     print(f"\n*** Using Balanced Model (all metrics >= 80%) ***")
 else:
     # Fall back to highest accuracy
@@ -317,6 +333,7 @@ else:
     accuracy = best_overall['accuracy']
     sensitivity = best_overall['sensitivity']
     specificity = best_overall['specificity']
+    f1 = best_overall['f1_score']
 
 print("\n" + "="*50)
 print("FINAL MODEL EVALUATION RESULTS")
@@ -324,6 +341,7 @@ print("="*50)
 print(f"Accuracy     : {accuracy:.4f} ({accuracy*100:.2f}%)")
 print(f"Sensitivity  : {sensitivity:.4f} ({sensitivity*100:.2f}%)")
 print(f"Specificity  : {specificity:.4f} ({specificity*100:.2f}%)")
+print(f"F1 Score     : {f1:.4f} ({f1*100:.2f}%)")
 print("="*50)
 
 # Save model
@@ -338,4 +356,4 @@ joblib.dump(model_data, model_path)
 print("\nModel trained and saved")
 print(f"\n=== IMPROVEMENT SUMMARY ===")
 print(f"Original: Acc=65.49%, Sens=51.52%, Spec=71.25%")
-print(f"New:     Acc={accuracy*100:.2f}%, Sens={sensitivity*100:.2f}%, Spec={specificity*100:.2f}%")
+print(f"New:     Acc={accuracy*100:.2f}%, Sens={sensitivity*100:.2f}%, Spec={specificity*100:.2f}%, F1={f1*100:.2f}%")
